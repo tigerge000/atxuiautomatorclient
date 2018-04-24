@@ -1,0 +1,62 @@
+基于@codeskyblue
+https://github.com/openatx/uiautomator2
+开源的atx app自动化解决方案，开发的java版atx-client
+
+### 初始化:
+
+```
+@Before
+public void setUp() throws Exception{
+DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+desiredCapabilities.setPackageName("com.netease.cloudmusic");
+desiredCapabilities.setRemoteHost("192.168.2.81");
+driver.initDriver(desiredCapabilities);
+}
+```
+
+
+### 目前元素查找实现以下方法:
+
+#### elementByName
+```
+driver.elementByName("私人FM").click();
+```
+#### elementByDesc
+
+```
+driver.elementByDesc("转到上一层级").click();
+```
+
+#### elementById
+
+```
+driver.elementById("com.netease.cloudmusic:id/search_src_text").sendKeys(keys);
+```
+#### elementByMult
+一个元素多个属性定位
+
+```
+Map<String,Object> songParams = new HashMap<String,Object>();
+songParams.put(MaskNum.TEXT_STARTS_WITH.getDes(),"搜索");
+songParams.put(MaskNum.CLASS_NAME.getDes(),"android.widget.TextView");
+driver.elementByMult((songParams)).click();
+```
+
+#### elementByXpath
+在原方法不支持xpath基础上增加 xpath的支持
+```
+String xpath = "//*[@resource-id=\"com.netease.cloudmusic:id/gt\"]/*[@class=\"android.widget.LinearLayout\"][4]/*[@class=\"android.widget.LinearLayout\"][1]/*[@class=\"android.widget.RelativeLayout\"][1]";
+driver.elementByXpath(xpath).click();
+```
+
+#### 获取当前activity
+```
+driver.getCurrentActivity()
+```
+
+#### 获取APP activity的xml结构
+
+```
+driver.dumpHierarchy();
+```
+持续更新中....
