@@ -11,7 +11,8 @@ public enum MethodEnum {
     DEVICE_INFO("deviceInfo"),//查看设备信息
     DRAG_TO("dragTo"),//拖拽
     SET_TEXT("setText"),//设置文本信息
-    DUMP_WINDOWS_HIERARCHY("dumpWindowHierarchy");//获取当前app的xml结构
+    DUMP_WINDOWS_HIERARCHY("dumpWindowHierarchy"),//获取当前app的xml结构
+    PRESS_KEY("pressKey");//操作key 事件
 
     MethodEnum(String value) {
         this.value = value;

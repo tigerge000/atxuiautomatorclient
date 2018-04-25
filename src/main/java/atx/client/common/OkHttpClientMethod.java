@@ -1,6 +1,7 @@
 package atx.client.common;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import okhttp3.*;
 import org.apache.commons.logging.Log;
@@ -222,6 +223,70 @@ public class OkHttpClientMethod {
      * downLoad请求
      * @param url
      * @param saveDir
+     * @return
+     */
+    public void downLoadMethod(final String url, final String saveDir){
+        Request request = new Request.Builder()
+                .url(url)
+                .headers(setHeaders(new HashMap<String,Object>()))
+                .get()
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+
+//        log.info("Http info:" + request.toString());
+//        log.info("Http Header:" + request.headers().toString());
+        try {
+
+            Response response = call.execute();
+            InputStream inputStream = null;
+            byte[] buf = new byte[1024];
+            int len = 0;
+            FileOutputStream fileOutputStream = null;
+
+            try {
+                inputStream = response.body().byteStream();
+                long total = response.body().contentLength();
+                File file = new File(saveDir);
+
+                fileOutputStream = new FileOutputStream(file);
+                long sum = 0;
+                while ((len = inputStream.read(buf)) != -1) {
+                    fileOutputStream.write(buf, 0, len);
+                    sum += len;
+                }
+                fileOutputStream.flush();
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+                try {
+                    if(inputStream != null){
+                        inputStream.close();
+                    }
+                }catch (IOException e){
+
+                }
+
+                try {
+                    if(fileOutputStream != null){
+                        fileOutputStream.close();
+                    }
+                }catch (IOException e){
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+    /**
+     * downLoad请求
+     * @param url
+     * @param saveDir
      * @param urlParams
      * @param headerParams
      * @return
@@ -255,7 +320,7 @@ public class OkHttpClientMethod {
                     try {
                         inputStream = response.body().byteStream();
                         long total = response.body().contentLength();
-                        File file = new File(saveDir, getNameFromUrl(url));
+                        File file = new File(saveDir);
 
                         fileOutputStream = new FileOutputStream(file);
                         long sum = 0;
@@ -440,6 +505,48 @@ public class OkHttpClientMethod {
         }
     }
 
+    /**
+     * Delete
+     * @param url
+     * @param urlParams
+     * @param bodyParams
+     * @param headerParams
+     * @return
+     */
+    public Object deleteMethod(String url, Map<String, Object> urlParams, Map<String, Object> bodyParams, Map<String, Object> headerParams){
+
+        Request request = new Request.Builder()
+                .url(url + setUrlParams(urlParams))
+                .headers(setHeaders(headerParams))
+                .delete(setPostBody(bodyParams))
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+
+        JSONObject jsonResult = new JSONObject();
+        log.info("Http info:" + request.toString());
+        log.info("Http Header:" + request.headers().toString());
+        log.info("Http params:" + request.body().toString());
+        try {
+            Response response = call.execute();
+
+            String result = InputStreamUtils.inputStreamTOString(response.body().byteStream(),"UTF-8");
+            log.info("Http Result:" + result);
+            if (response.isSuccessful()){
+                try {
+                    jsonResult = JSONObject.fromObject(result);
+                    return jsonResult;
+                }catch (JSONException exception){
+                    return result;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonResult;
+    }
 
 
 
@@ -483,8 +590,16 @@ public class OkHttpClientMethod {
             String result = InputStreamUtils.inputStreamTOString(response.body().byteStream(),"UTF-8");
             log.info("Http Result:" + result);
             if (response.isSuccessful()){
-                jsonResult =  JSONObject.fromObject(result);
-                return jsonResult;
+
+                try {
+                    jsonResult = JSONObject.fromObject(result);
+                    return jsonResult;
+                }catch (JSONException exception){
+                    return result;
+                }
+
+
+
             }
 
         } catch (Exception e) {

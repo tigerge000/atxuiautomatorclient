@@ -7,8 +7,13 @@ public class Const {
     //基础uri
     public static final String BASE_URI = "/jsonrpc/0";
 
+    public static final String UIAUTOMAROR_URI = "/uiautomator";
+
     //接收shell命令 URI
     public static final String SHELL_URI = "/shell";
+
+    //截图uri
+    public static final String SCREENSHOT_URI = "/screenshot/0";
 
     //等待最长超时时间
     public static int WAIT_ElEMENT_TIMEOUT = 1000;

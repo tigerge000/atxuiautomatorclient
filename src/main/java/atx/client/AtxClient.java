@@ -1,5 +1,7 @@
 package atx.client;
 
+import atx.client.adb.AdbDevice;
+import atx.client.adb.Position;
 import atx.client.common.*;
 import atx.client.enums.Const;
 import atx.client.enums.MaskNum;
@@ -426,6 +428,40 @@ public class AtxClient {
         return null;
     }
 
+    /**
+     * 点击 按钮事件
+     * @param keyEvent
+     */
+    public void press(String keyEvent){
+        List<Object> params = new ArrayList<Object>();
+        params.add(keyEvent);
+        okHttpClientMethod.postByteMethod(atxContexts.getAtxHost() + Const.BASE_URI, ElementObj.baseRequestJson(MethodEnum.PRESS_KEY.getValue(),params));
+    }
+
+
+    /**
+     * 截图
+     * @param fileName
+     * @throws Exception
+     */
+    public void takeScreenshot(final String fileName) throws Exception {
+        okHttpClientMethod.downLoadMethod(atxContexts.getAtxHost() + Const.SCREENSHOT_URI, fileName);
+
+    }
+
+    /**
+     * 启动服务
+     */
+    public void startUiAutomator(){
+        okHttpClientMethod.postMethod(atxContexts.getAtxHost() + Const.UIAUTOMAROR_URI,new HashMap<String,Object>() ,new HashMap<String,Object>());
+    }
+
+    /**
+     * 停止服务
+     */
+    public void stopUiAutomator(){
+        okHttpClientMethod.deleteMethod(atxContexts.getAtxHost() + Const.UIAUTOMAROR_URI,null,new HashMap<String,Object>() ,new HashMap<String,Object>());
+    }
 
 
 }

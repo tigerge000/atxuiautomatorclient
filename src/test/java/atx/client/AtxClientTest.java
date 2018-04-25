@@ -1,5 +1,6 @@
 package atx.client;
 
+import atx.client.enums.KeyEventEnum;
 import atx.client.enums.MaskNum;
 import atx.client.model.DesiredCapabilities;
 import org.junit.Before;
@@ -94,7 +95,18 @@ public class AtxClientTest {
      */
     @Test
     public void testGetOther() throws Exception{
-        System.out.println(driver.getCurrentActivity());
+//        System.out.println(driver.getCurrentActivity());
+//        driver.elementByName("私人FM").click();
+//        driver.press(KeyEventEnum.VOLUME_UP.getValue());
+//        driver.press(KeyEventEnum.VOLUME_DWON.getValue());
+//        driver.press(KeyEventEnum.VOLUME_MUTE.getValue());
+        //测试截图
+//        String fileName = "/Users/huqingen/Desktop/Finger/Git/test/atxuiautomatorclient/picture/1.jpg";
+//        driver.takeScreenshot(fileName);
+
+        //启动停止ui
+//        driver.stopUiAutomator();
+//        driver.startUiAutomator();
     }
 
 }
