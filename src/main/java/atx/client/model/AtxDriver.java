@@ -1,5 +1,6 @@
 package atx.client.model;
 
+import atx.client.enums.Const;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -48,7 +49,7 @@ public class AtxDriver {
     }
 
     public void setAtxHost(String atxHost) {
-        this.atxHost = "http://" + atxHost + ":7912";
+        this.atxHost = "http://" + atxHost + ":" + Const.PORT_UI;
     }
 
     public JSONObject getObjInfo() {

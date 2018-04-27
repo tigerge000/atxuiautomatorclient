@@ -1,7 +1,6 @@
 package atx.client;
 
 import atx.client.adb.AdbDevice;
-import atx.client.adb.Position;
 import atx.client.common.*;
 import atx.client.enums.Const;
 import atx.client.enums.MaskNum;
@@ -463,5 +462,26 @@ public class AtxClient {
         okHttpClientMethod.deleteMethod(atxContexts.getAtxHost() + Const.UIAUTOMAROR_URI,null,new HashMap<String,Object>() ,new HashMap<String,Object>());
     }
 
+
+    /**
+     * 设置输入法
+     */
+    public void setKeybord(String keybord){
+
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        desiredCapabilities.setRemoteHost(atxContexts.getAtxHost());
+
+        String keyboardList = ShellUtils.getInstance(desiredCapabilities).shellPost("ime list -s");
+
+        System.out.println(keyboardList.split("\\n")[0]);
+        System.out.println(keyboardList.split("\\n")[1]);
+        System.out.println(keyboardList.split("\\n")[2]);
+
+        for(String str : keyboardList.split("\\n")){
+            if(str.equals(keybord)){
+                ShellUtils.getInstance(desiredCapabilities).shellPost("ime set " + keybord );
+            }
+        }
+    }
 
 }

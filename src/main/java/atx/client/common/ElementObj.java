@@ -1,9 +1,11 @@
 package atx.client.common;
 
+import atx.client.adb.AdbDevice;
 import atx.client.enums.Const;
 import atx.client.enums.MaskNum;
 import atx.client.enums.MethodEnum;
 import atx.client.model.AtxDriver;
+import atx.client.model.DesiredCapabilities;
 import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class ElementObj {
     public ElementObj(AtxDriver atxDriver){
         this.driver = atxDriver;
     }
+
 
     /**
      * 基础请求数据模型
@@ -54,9 +57,20 @@ public class ElementObj {
      * 发送文本信息
      */
     public void sendKeys(String keys) throws Exception{
-        List<Object> params = driver.getSearchEleInfo();
-        params.add(keys);
-        okHttpClientMethod.postByteMethod(driver.getAtxHost() + Const.BASE_URI,baseRequestJson(MethodEnum.SET_TEXT.getValue(),params));
+
+        if(driver.getSearchEleInfo() != null) {
+            List<Object> params = driver.getSearchEleInfo();
+            params.add(keys);
+            okHttpClientMethod.postByteMethod(driver.getAtxHost() + Const.BASE_URI, baseRequestJson(MethodEnum.SET_TEXT.getValue(), params));
+        }else {
+            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+            desiredCapabilities.setRemoteHost(driver.getAtxHost());
+            AdbDevice adbDevice = AdbDevice.getInstance(desiredCapabilities);
+            adbDevice.sendText(keys);
+        }
+
+
+
     }
 
 

@@ -39,6 +39,7 @@ public class ShellUtils {
         return mInstance;
     }
 
+
     /**
      * 发送shell命令
      * @param command
@@ -46,7 +47,15 @@ public class ShellUtils {
     public String shellPost(String command){
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("command",command);
-        JSONObject result = JSONObject.fromObject(OkHttpClientMethod.getInstance().postMethod("http://" + desiredCapabilities.getRemoteHost() + ":7912"+ Const.SHELL_URI,params,new HashMap<String,Object>()));
+
+        String url = "";
+        if(desiredCapabilities.getRemoteHost().contains("http")){
+            url = desiredCapabilities.getRemoteHost();
+        }else {
+            url = "http://" + desiredCapabilities.getRemoteHost() + ":" + Const.PORT_SHELL;
+        }
+
+        JSONObject result = JSONObject.fromObject(OkHttpClientMethod.getInstance().postMethod(url+ Const.SHELL_URI,params,new HashMap<String,Object>()));
 
         if(result.containsKey("output")){
             return result.getString("output");
@@ -61,7 +70,15 @@ public class ShellUtils {
         List<Object> params = new ArrayList<Object>();
         params.add(false);
         params.add(null);
-        JSONObject result = JSONObject.fromObject(OkHttpClientMethod.getInstance().postByteMethod("http://" + desiredCapabilities.getRemoteHost() + ":7912"+ Const.BASE_URI, ElementObj.baseRequestJson(MethodEnum.DUMP_WINDOWS_HIERARCHY.getValue(),params)));
+
+        String url = "";
+        if(desiredCapabilities.getRemoteHost().contains("http")){
+            url = desiredCapabilities.getRemoteHost();
+        }else {
+            url = "http://" + desiredCapabilities.getRemoteHost() + ":7912";
+        }
+
+        JSONObject result = JSONObject.fromObject(OkHttpClientMethod.getInstance().postByteMethod(url + Const.BASE_URI, ElementObj.baseRequestJson(MethodEnum.DUMP_WINDOWS_HIERARCHY.getValue(),params)));
         FileMethodUtils.generateXML(Const.XML_PATH,result.getString("result"));
 
     }

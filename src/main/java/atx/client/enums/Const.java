@@ -23,4 +23,14 @@ public class Const {
 
     public static String XML_PATH = "/xml/now.xml";
 
+    public static Integer PORT_SHELL = 7912;
+//
+    public static Integer PORT_UI = 7912;
+
+    //在uiautomator服务上增加了 shell接口
+//    public static Integer PORT_SHELL = 9999;
+
+    //直接调用uiautomator接口
+//    public static Integer PORT_UI = 9008;
+
 }

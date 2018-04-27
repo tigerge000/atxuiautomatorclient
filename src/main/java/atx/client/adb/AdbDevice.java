@@ -7,6 +7,7 @@ import atx.client.enums.Const;
 import atx.client.model.AtxDriver;
 import atx.client.model.DesiredCapabilities;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -148,7 +149,11 @@ public class AdbDevice {
 	public int getBatteryStatus() {
 		String out = shellUtils.shellPost("dumpsys battery | grep status");
 
-		int status = new Integer(out.split(":")[1].split("[^0-9]")[1]);
+		int status = 100;
+
+		if(StringUtils.isNotEmpty(out)) {
+			status = new Integer(out.split(":")[1].split("[^0-9]")[1]);
+		}
 
 		return status;
 	}
