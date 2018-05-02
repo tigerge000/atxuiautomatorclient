@@ -8,6 +8,7 @@ public enum KeybordEnums {
     UNICODE("io.appium.android.ime/.UnicodeIME"),//原生输入法
     SOUGOU("com.sohu.inputmethod.sogou/.SogouIME"),//搜狗输入法
     YIJIA("com.baidu.input_yijia/.ImeService"),
+    FASTINPUT("com.github.uiautomator/.FastInputIME"),
     XIAOMI_SOUGOU("com.sohu.inputmethod.sogou.xiaomi/.SogouIME");//小米 搜狗输入法
 
     KeybordEnums(String value) {

@@ -1,14 +1,15 @@
 package atx.client;
 
-import atx.client.adb.AdbDevice;
 import atx.client.common.*;
+import atx.client.enums.Attribute;
+import atx.client.enums.AttributeMask;
 import atx.client.enums.Const;
-import atx.client.enums.MaskNum;
 import atx.client.enums.MethodEnum;
 import atx.client.model.AtxDriver;
 import atx.client.model.DesiredCapabilities;
 import atx.client.model.DeviceInfo;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -103,12 +104,12 @@ public class AtxClient {
     public ElementObj elementByName(String name) throws Exception {
         JSONObject jsonObject = new JSONObject();
         List<Integer> fields = new ArrayList<Integer>();
-        fields.add(MaskNum.TEXT.getValue());
+        fields.add(AttributeMask.TEXT.getValue());
 
         jsonObject.put("mask", SortUtils.maskValue(fields));
         jsonObject.put("childOrSibling",new ArrayList<>());
         jsonObject.put("childOrSiblingSelector",new ArrayList<>());
-        jsonObject.put(MaskNum.TEXT.getDes(),name);
+        jsonObject.put(AttributeMask.TEXT.getDes(),name);
         List<JSONObject> jsonObjectList = new ArrayList<>();
         jsonObjectList.add(jsonObject);
 
@@ -126,10 +127,10 @@ public class AtxClient {
         JSONObject jsonObject = new JSONObject();
 
         List<Integer> fields = new ArrayList<Integer>();
-        fields.add(MaskNum.DESCRIPTION.getValue());
+        fields.add(AttributeMask.DESCRIPTION.getValue());
 
         jsonObject.put("mask", SortUtils.maskValue(fields));
-        jsonObject.put(MaskNum.DESCRIPTION.getDes(), des);
+        jsonObject.put(AttributeMask.DESCRIPTION.getDes(), des);
 
         List<JSONObject> jsonObjectList = new ArrayList<>();
         jsonObjectList.add(jsonObject);
@@ -148,10 +149,10 @@ public class AtxClient {
         JSONObject jsonObject = new JSONObject();
 
         List<Integer> fields = new ArrayList<Integer>();
-        fields.add(MaskNum.RESOURCEID.getValue());
+        fields.add(AttributeMask.RESOURCEID.getValue());
 
         jsonObject.put("mask", SortUtils.maskValue(fields));
-        jsonObject.put(MaskNum.RESOURCEID.getDes(), resourceId);
+        jsonObject.put(AttributeMask.RESOURCEID.getDes(), resourceId);
 
         List<JSONObject> jsonObjectList = new ArrayList<>();
         jsonObjectList.add(jsonObject);
@@ -202,8 +203,71 @@ public class AtxClient {
         isExist = true;
         Element node = (Element) list.get(0);
         //主要目标是根据坐标进行点击，因此 计算坐标
-        convertCoordinate(node.attribute("bounds").getValue());
-        return isExist ? element : null;
+//        convertCoordinate(node.attribute("bounds").getValue());
+
+
+        Map<String,Object> searchObjs = new HashMap<String,Object>();
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.INDEX.getName()).getValue())) {
+            searchObjs.put(AttributeMask.INDEX.getDes(), node.attribute(Attribute.INDEX.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.PACKAGE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.PACKAGE_NAME.getDes(), node.attribute(Attribute.PACKAGE.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CLASS.getName()).getValue())) {
+            searchObjs.put(AttributeMask.CLASS_NAME.getDes(), node.attribute(Attribute.CLASS.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.TEXT.getName()).getValue())) {
+            searchObjs.put(AttributeMask.TEXT.getDes(), node.attribute(Attribute.TEXT.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CONTENT_DESC.getName()).getValue())) {
+            searchObjs.put(AttributeMask.DESCRIPTION.getDes(), node.attribute(Attribute.CONTENT_DESC.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.RESOURCE_ID.getName()).getValue())){
+            searchObjs.put(AttributeMask.RESOURCEID.getDes(),node.attribute(Attribute.RESOURCE_ID.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CHECKABLE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.CHECKABLE.getDes(), node.attribute(Attribute.CHECKABLE.getName()).getValue());
+        }
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CLICKABLE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.CLICKABLE.getDes(), node.attribute(Attribute.CLICKABLE.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CHECKED.getName()).getValue())) {
+            searchObjs.put(AttributeMask.CHECKED.getDes(), node.attribute(Attribute.CHECKED.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.ENABLED.getName()).getValue())) {
+            searchObjs.put(AttributeMask.ENABLED.getDes(), node.attribute(Attribute.ENABLED.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.CHECKABLE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.CHECKABLE.getDes(), node.attribute(Attribute.CHECKABLE.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.FOCUSED.getName()).getValue())) {
+            searchObjs.put(AttributeMask.FOCUSED.getDes(), node.attribute(Attribute.FOCUSED.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.LONG_CLICKABLE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.LONGCLICKABLE.getDes(), node.attribute(Attribute.LONG_CLICKABLE.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.SCROLLABLE.getName()).getValue())) {
+            searchObjs.put(AttributeMask.SCROLLABLE.getDes(), node.attribute(Attribute.SCROLLABLE.getName()).getValue());
+        }
+
+        if(StringUtils.isNotEmpty(node.attribute(Attribute.SELECTED.getName()).getValue())) {
+            searchObjs.put(AttributeMask.SELECTED.getDes(), node.attribute(Attribute.SELECTED.getName()).getValue());
+        }
+
+        return elementByMult(searchObjs);
 
     }
 
@@ -256,10 +320,10 @@ public class AtxClient {
         JSONObject jsonObject = new JSONObject();
 
         List<Integer> fields = new ArrayList<Integer>();
-        fields.add(MaskNum.CLASS_NAME.getValue());
+        fields.add(AttributeMask.CLASS_NAME.getValue());
 
         jsonObject.put("mask", SortUtils.maskValue(fields));
-        jsonObject.put(MaskNum.CLASS_NAME.getDes(), className);
+        jsonObject.put(AttributeMask.CLASS_NAME.getDes(), className);
 
         List<JSONObject> jsonObjectList = new ArrayList<>();
         jsonObjectList.add(jsonObject);
@@ -272,7 +336,7 @@ public class AtxClient {
      *
      * 多元素查找匹配
      * 判断元素是否存在
-     * 详细支持对象元素查看 MaskNum 枚举类
+     * 详细支持对象元素查看 AttributeMask 枚举类
      * @param searchParams
      * @return
      * @throws Exception
@@ -285,8 +349,8 @@ public class AtxClient {
         jsonObject.put("childOrSiblingSelector",new ArrayList<>());
 
         for (String key : searchParams.keySet()) {
-            fields.add(MaskNum.iterationFindByDes(key).getValue());
-            jsonObject.put(MaskNum.iterationFindByDes(key).getDes(),searchParams.get(key).toString());
+            fields.add(AttributeMask.iterationFindByDes(key).getValue());
+            jsonObject.put(AttributeMask.iterationFindByDes(key).getDes(),searchParams.get(key).toString());
         }
 
         jsonObject.put("mask", SortUtils.maskValue(fields));
@@ -307,7 +371,7 @@ public class AtxClient {
      * @return
      * @throws Exception
      */
-    public ElementObj waitForElement(MaskNum wayToFind, String value) throws Exception {
+    public ElementObj waitForElement(AttributeMask wayToFind, String value) throws Exception {
         int count = 0;
         int timeLeft = Const.WAIT_ElEMENT_TIMEOUT;
         boolean satisfied = false;
@@ -351,7 +415,7 @@ public class AtxClient {
      * @return
      * @throws Exception
      */
-    public boolean isElementExist(MaskNum wayToFind, String value) throws Exception {
+    public boolean isElementExist(AttributeMask wayToFind, String value) throws Exception {
         try {
 
 

@@ -1,11 +1,9 @@
 package atx.client;
 
-import atx.client.adb.AdbDevice;
-import atx.client.adb.ElementAdb;
-import atx.client.adb.ElementAttribs;
-import atx.client.adb.Position;
+import atx.client.adb.*;
 import atx.client.enums.AndroidKeyCode;
 import atx.client.enums.KeyEventEnum;
+import atx.client.enums.KeybordEnums;
 import atx.client.model.DesiredCapabilities;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,31 +23,34 @@ public class FingerTest {
     public void setUp() throws Exception{
 
         desiredCapabilities.setPackageName("com.tuotuo.solo");
-        desiredCapabilities.setRemoteHost("192.168.2.81");
+        desiredCapabilities.setRemoteHost("192.168.2.28");
 
         driver.initDriver(desiredCapabilities);
     }
 
+
+    @Test
+    public void testLogin() throws Exception{
+        driver.elementByName("手机号").click();
+
+    }
+
+
     @Test
     public void testNetE() throws Exception{
 
-//        driver.elementByName("我的").click();
-//        driver.elementByName("Finger Pro 私教中心").click();
+//        driver.setKeybord(KeybordEnums.SOUGOU.getValue());
 
-//        driver.elementByXpath("//*[@text=\"更改\"]").click();
+        driver.elementByName("我的").click();
+//
+        driver.elementById("com.tuotuo.solo:id/rl_exchange_code").click();
 
-//        driver.elementById("com.tuotuo.solo:id/rl_exchange_code").click();
+//        driver.elementByName("输入兑换码，兑换后即刻生效").click();
 
-        driver.elementByName("输入兑换码，兑换后即刻生效").click();
 
-        driver.press(KeyEventEnum.ENTER.getValue());
+        driver.elementByXpath("//*[@text=\"输入兑换码，兑换后即刻生效\"]").sendKeys("3718a");
 
-        driver.elementByName("确定兑换").click();
-
-//        driver.elementByXpath("//*[@text=\"输入兑换码，兑换后即刻生效\"]").sendKeys("3718a");
-
-//        driver.elementByXpath("//*[@text=\"确定兑换\"]").click();
-
+        driver.elementByXpath("//*[@text=\"确定兑换\"]").click();
 
     }
 
@@ -75,21 +76,21 @@ public class FingerTest {
         System.out.println("设备电池电量： " + adbDevice.getBatteryLevel());
 
 
-        if(position.waitForElement(ElementAttribs.TEXT,"账号",WAIT_TIMEOUT)) {
-            ElementAdb e_search = position.findElementById("com.tuotuo.solo:id/rl_exchange_code");
-            adbDevice.click(e_search);
-        }
-
-        if(position.waitForElement(ElementAttribs.TEXT,"输入兑换码，兑换后即刻生效",WAIT_TIMEOUT)) {
-            ElementAdb e_search = position.findElementByText("输入兑换码，兑换后即刻生效");
-            adbDevice.click(e_search);
-            adbDevice.sendText("hahahahah");
-            driver.press(KeyEventEnum.ENTER.getValue());
-            ElementAdb e_txt = position.findElementByText("兑换码");
-            adbDevice.click(e_txt);
-            ElementAdb e_enter = position.findElementByText("确定兑换");
-            adbDevice.click(e_enter);
-        }
+//        if(position.waitForElement(ElementAttribs.TEXT,"账号",WAIT_TIMEOUT)) {
+//            ElementAdb e_search = position.findElementById("com.tuotuo.solo:id/rl_exchange_code");
+//            adbDevice.click(e_search);
+//        }
+//
+//        if(position.waitForElement(ElementAttribs.TEXT,"输入兑换码，兑换后即刻生效",WAIT_TIMEOUT)) {
+//            ElementAdb e_search = position.findElementByText("输入兑换码，兑换后即刻生效");
+//            adbDevice.click(e_search);
+//            adbDevice.sendText("hahahahah");
+//            driver.press(KeyEventEnum.ENTER.getValue());
+//            ElementAdb e_txt = position.findElementByText("兑换码");
+//            adbDevice.click(e_txt);
+//            ElementAdb e_enter = position.findElementByText("确定兑换");
+//            adbDevice.click(e_enter);
+//        }
 
 
     }

@@ -5,7 +5,7 @@ package atx.client.enums;
  * 元素对应的mask编号
  * Created by 飞狐 on 2018/4/19.
  */
-public enum MaskNum {
+public enum AttributeMask {
 
     /** 元素相关 **/
 
@@ -36,7 +36,7 @@ public enum MaskNum {
     INSTANCE(0x01000000,"instance"),
     ;
 
-    MaskNum(Integer value,String des) {
+    AttributeMask(Integer value, String des) {
         this.value = value;
         this.des = des;
     }
@@ -67,8 +67,8 @@ public enum MaskNum {
      * @param name
      * @return
      */
-    public static MaskNum iterationFindByName(String name) {
-        for (MaskNum suit : MaskNum.values()) {
+    public static AttributeMask iterationFindByName(String name) {
+        for (AttributeMask suit : AttributeMask.values()) {
             if (name.equals(suit.name())) {
                 return suit;
             }
@@ -81,8 +81,8 @@ public enum MaskNum {
      * @param des
      * @return
      */
-    public static MaskNum iterationFindByDes(String des) {
-        for (MaskNum suit : MaskNum.values()) {
+    public static AttributeMask iterationFindByDes(String des) {
+        for (AttributeMask suit : AttributeMask.values()) {
             if (des.equals(suit.getDes())) {
                 return suit;
             }

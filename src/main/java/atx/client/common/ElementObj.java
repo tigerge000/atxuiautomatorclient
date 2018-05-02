@@ -2,14 +2,13 @@ package atx.client.common;
 
 import atx.client.adb.AdbDevice;
 import atx.client.enums.Const;
-import atx.client.enums.MaskNum;
+import atx.client.enums.AttributeMask;
 import atx.client.enums.MethodEnum;
 import atx.client.model.AtxDriver;
 import atx.client.model.DesiredCapabilities;
 import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,8 +87,8 @@ public class ElementObj {
         jsonObject.put("childOrSiblingSelector",new ArrayList<>());
 
         for (String key : searchParams.keySet()) {
-            fields.add(MaskNum.iterationFindByDes(key).getValue());
-            jsonObject.put(MaskNum.iterationFindByDes(key).getDes(),searchParams.get(key).toString());
+            fields.add(AttributeMask.iterationFindByDes(key).getValue());
+            jsonObject.put(AttributeMask.iterationFindByDes(key).getDes(),searchParams.get(key).toString());
         }
 
         jsonObject.put("mask", SortUtils.maskValue(fields));

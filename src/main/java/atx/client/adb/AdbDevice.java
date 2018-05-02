@@ -659,22 +659,23 @@ public class AdbDevice {
 	 *            英文文本
 	 */
 	public void sendText(String text) {
-		String[] str = text.split(" ");
-		ArrayList<String> out = new ArrayList<String>();
-		for (String string : str) {
-			if (!string.equals("")) {
-				out.add(string);
-			}
-		}
-
-		int length = out.size();
-		for (int i = 0; i < length; i++) {
-			shellUtils.shellPost("input text " + out.get(i));
-			sleep(100);
-			if (i != length - 1) {
-				sendKeyEvent(AndroidKeyCode.SPACE);
-			}
-		}
+//		String[] str = text.split(" ");
+//		ArrayList<String> out = new ArrayList<String>();
+//		for (String string : str) {
+//			if (!string.equals("")) {
+//				out.add(string);
+//			}
+//		}
+//
+//		int length = out.size();
+//		for (int i = 0; i < length; i++) {
+//			shellUtils.shellPost("input text " + out.get(i));
+//			sleep(100);
+//			if (i != length - 1) {
+//				sendKeyEvent(AndroidKeyCode.SPACE);
+//			}
+//		}
+		shellUtils.shellPost("am broadcast -a ADB_INPUT_TEXT --es msg '" + text +"'");
 	}
 
 	/**

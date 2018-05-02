@@ -1,7 +1,7 @@
 package atx.client;
 
-import atx.client.enums.KeyEventEnum;
-import atx.client.enums.MaskNum;
+import atx.client.enums.KeybordEnums;
+import atx.client.enums.AttributeMask;
 import atx.client.model.DesiredCapabilities;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,19 +15,18 @@ import java.util.Map;
 public class AtxClientTest {
 
     AtxClient driver = new AtxClient();
+    private DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
     @Before
     public void setUp() throws Exception{
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setPackageName("com.netease.cloudmusic");
-        desiredCapabilities.setRemoteHost("192.168.2.81");
+        desiredCapabilities.setRemoteHost("192.168.2.28");
 
         driver.initDriver(desiredCapabilities);
     }
 
     @Test
     public void testNetE() throws Exception{
-
         driver.elementByName("私人FM").click();
         driver.elementByDesc("转到上一层级").click();
         driver.elementByName("每日推荐").click();
@@ -45,19 +44,18 @@ public class AtxClientTest {
     public void testSearchSong() throws Exception{
 //        driver.elementByDesc("搜索").click();
 
+//        driver.setKeybord(KeybordEnums.FASTINPUT.getValue());
+
         Map<String,Object> searchParams = new HashMap<String,Object>();
-        searchParams.put(MaskNum.DESCRIPTION.getDes(),"搜索");
-        searchParams.put(MaskNum.CLASS_NAME.getDes(),"android.widget.TextView");
+        searchParams.put(AttributeMask.DESCRIPTION.getDes(),"搜索");
+        searchParams.put(AttributeMask.CLASS_NAME.getDes(),"android.widget.TextView");
         driver.elementByMult(searchParams).click();
 
-
-        String keys = "大王叫我来巡山";
-
-        driver.elementById("com.netease.cloudmusic:id/search_src_text").sendKeys(keys);
+        driver.elementById("com.netease.cloudmusic:id/search_src_text").sendKeys("大王叫我来巡山");
 
         Map<String,Object> songParams = new HashMap<String,Object>();
-        songParams.put(MaskNum.TEXT_STARTS_WITH.getDes(),"搜索");
-        songParams.put(MaskNum.CLASS_NAME.getDes(),"android.widget.TextView");
+        songParams.put(AttributeMask.TEXT_STARTS_WITH.getDes(),"搜索");
+        songParams.put(AttributeMask.CLASS_NAME.getDes(),"android.widget.TextView");
         driver.elementByMult((songParams)).click();
 
         //选择一个音乐开始播放咯
@@ -104,9 +102,16 @@ public class AtxClientTest {
 //        String fileName = "/Users/huqingen/Desktop/Finger/Git/test/atxuiautomatorclient/picture/1.jpg";
 //        driver.takeScreenshot(fileName);
 
+//        ShellUtils.getInstance(desiredCapabilities).shellPost("ime list -s");
+
+//        AdbDevice.getInstance(desiredCapabilities).startAtxAgent();
+
         //启动停止ui
 //        driver.stopUiAutomator();
 //        driver.startUiAutomator();
+
+//        driver.setKeybord("aa");
+          driver.setKeybord(KeybordEnums.FASTINPUT.getValue());
     }
 
 }

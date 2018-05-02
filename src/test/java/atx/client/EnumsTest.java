@@ -1,11 +1,10 @@
 package atx.client;
 
 import atx.client.common.SortUtils;
+import atx.client.enums.AttributeMask;
 import atx.client.enums.Const;
-import atx.client.enums.MaskNum;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.ArrayUtils;
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -26,12 +25,12 @@ public class EnumsTest {
     @Test
     public void test1(){
 
-        MaskNum maskNum = MaskNum.CHECKED;
+        AttributeMask attributeMask = AttributeMask.CHECKED;
 
-        System.out.println(maskNum.name());
+        System.out.println(attributeMask.name());
 
-        System.out.println(maskNum.getValue());
-        System.out.println(maskNum.getDes());
+        System.out.println(attributeMask.getValue());
+        System.out.println(attributeMask.getDes());
 
     }
 
@@ -108,9 +107,9 @@ public class EnumsTest {
     public void listNodes(Element node) {
         System.out.println("当前节点的名称：：" + node.getName());
         // 获取当前节点的所有属性节点
-        List<Attribute> list = node.attributes();
+        List<org.dom4j.Attribute> list = node.attributes();
         // 遍历属性节点
-        for (Attribute attr : list) {
+        for (org.dom4j.Attribute attr : list) {
             System.out.println(attr.getText() + "-----" + attr.getName()
                     + "---" + attr.getValue());
         }
@@ -207,6 +206,8 @@ public class EnumsTest {
         System.out.println(SortUtils.string2Unicode(str));
 
         System.out.println(SortUtils.string2Unicode(JSONObject.fromObject(jsonObject.toString()).toString()));
+
+
 
     }
 }
